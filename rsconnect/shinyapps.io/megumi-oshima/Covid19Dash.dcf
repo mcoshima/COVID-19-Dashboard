@@ -1,0 +1,13 @@
+name: Covid19Dash
+title: Covid19Dash
+username:
+account: megumi-oshima
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2508037
+bundleId: 3320846
+url: https://megumi-oshima.shinyapps.io/Covid19Dash/
+when: 1593200166.13379
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .RData
