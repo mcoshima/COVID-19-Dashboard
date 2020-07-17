@@ -1,10 +1,11 @@
 #
 # This is a Shiny dashboard using the COVID19 package.
 #
+#!/usr/bin/env Rscript
 
-#library(devtools)
+library(devtools)
 #devtools::install_github("nik01010/dashboardthemes")
-library(tidyverse)
+library(dplyr)
 library(shiny)
 library(shinydashboard)
 library(COVID19)
