@@ -5,7 +5,7 @@
 
 library(devtools)
 #devtools::install_github("nik01010/dashboardthemes")
-library(dplyr)
+library(tidyverse)
 library(shiny)
 library(shinydashboard)
 library(COVID19)
@@ -106,7 +106,10 @@ ui <- dashboardPage(
 server <- shinyServer(function(input, output, session) {
     
     output$total_cases <- renderText({
-         us %>% 
+        us %>% 
+            ungroup() %>% 
+            group_by(administrative_area_level_2) %>% 
+            slice(n()) %>% 
             ungroup() %>% 
             summarise(sum(confirmed, na.rm = TRUE)) %>% 
             pull() %>% 
@@ -118,8 +121,9 @@ server <- shinyServer(function(input, output, session) {
         us %>% 
             ungroup() %>% 
             group_by(administrative_area_level_2) %>% 
-            summarise(sum(confirmed, na.rm = TRUE)) %>% 
             filter(str_detect(administrative_area_level_2, input$state)) %>% 
+            tail(1) %>% 
+            select(confirmed) %>% 
             pull() %>% 
             prettyNum(big.mark = ",")
     })
@@ -129,8 +133,9 @@ server <- shinyServer(function(input, output, session) {
         us %>% 
             ungroup() %>% 
             group_by(administrative_area_level_2) %>% 
-            summarise(sum(deaths, na.rm = TRUE)) %>% 
             filter(str_detect(administrative_area_level_2, input$state)) %>% 
+            tail(1) %>% 
+            select(confirmed) %>% 
             pull() %>% 
             prettyNum(big.mark = ",")
     })
@@ -138,8 +143,9 @@ server <- shinyServer(function(input, output, session) {
         us %>% 
             ungroup() %>% 
             group_by(administrative_area_level_2) %>% 
-            summarise(sum(tests, na.rm = TRUE)) %>% 
             filter(str_detect(administrative_area_level_2, input$state)) %>% 
+            tail(1) %>% 
+            select(confirmed) %>% 
             pull() %>% 
             prettyNum(big.mark = ",")
     })
@@ -152,10 +158,8 @@ server <- shinyServer(function(input, output, session) {
             rename(county_name = administrative_area_level_3) %>% 
             select(county_name, date, tests, confirmed, deaths, recovered) %>% 
             group_by(county_name) %>% 
-            summarise(Cases = sum(confirmed, na.rm = TRUE), 
-                      total_deaths = sum(deaths, na.rm = TRUE),
-                      total_tests = sum(tests, na.rm = TRUE),
-                      total_recovered = sum(recovered, na.rm = TRUE))
+            slice(n()) %>% 
+            rename(Cases = "confirmed")
         
         urbnmapr::counties %>% 
             filter(state_name ==  input$state) %>% 
@@ -177,10 +181,8 @@ server <- shinyServer(function(input, output, session) {
             rename(county_name = administrative_area_level_3) %>% 
             select(county_name, date, tests, confirmed, deaths, recovered) %>% 
             group_by(county_name) %>% 
-            summarise(total_confirmed = sum(confirmed, na.rm = TRUE), 
-                      Cases = sum(deaths, na.rm = TRUE),
-                      total_tests = sum(tests, na.rm = TRUE),
-                      total_recovered = sum(recovered, na.rm = TRUE))
+            slice(n()) %>% 
+            rename(Cases = "deaths")
         
         urbnmapr::counties %>% 
             filter(state_name ==  input$state) %>% 
