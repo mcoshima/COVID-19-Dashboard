@@ -5,9 +5,9 @@ account: megumi-oshima
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2508037
-bundleId: 3320846
+bundleId: 3404246
 url: https://megumi-oshima.shinyapps.io/Covid19Dash/
-when: 1593200166.13379
+when: 1594999542.33221
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: .RData

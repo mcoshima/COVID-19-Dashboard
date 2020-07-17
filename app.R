@@ -135,7 +135,7 @@ server <- shinyServer(function(input, output, session) {
             group_by(administrative_area_level_2) %>% 
             filter(str_detect(administrative_area_level_2, input$state)) %>% 
             tail(1) %>% 
-            select(confirmed) %>% 
+            select(deaths) %>% 
             pull() %>% 
             prettyNum(big.mark = ",")
     })
@@ -145,7 +145,7 @@ server <- shinyServer(function(input, output, session) {
             group_by(administrative_area_level_2) %>% 
             filter(str_detect(administrative_area_level_2, input$state)) %>% 
             tail(1) %>% 
-            select(confirmed) %>% 
+            select(tests) %>% 
             pull() %>% 
             prettyNum(big.mark = ",")
     })
